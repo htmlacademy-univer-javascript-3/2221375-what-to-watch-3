@@ -5,7 +5,7 @@ import App from './components/app/app';
 const mainProps = {
   name: 'The Grand Budapest Hotel',
   genre: 'Drama',
-  dateFilm: "2014"
+  dateFilm: '2014'
 };
 
 const root = ReactDOM.createRoot(

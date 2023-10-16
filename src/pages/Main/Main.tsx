@@ -1,7 +1,7 @@
 type MainProps = {
-  name: string,
-  genre: string,
-  dateFilm: string,
+  name: string;
+  genre: string;
+  dateFilm: string;
   Cards: JSX.Element[];
 }
 
@@ -130,7 +130,7 @@ function Main(props: MainProps): JSX.Element {
         </footer>
       </div>
     </main>
-  )
+  );
 }
 
-export default Main
+export default Main;
