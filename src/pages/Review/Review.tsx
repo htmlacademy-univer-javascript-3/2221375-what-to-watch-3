@@ -94,3 +94,4 @@ function Review() {
         </section>
     )
 }
+export default Review;

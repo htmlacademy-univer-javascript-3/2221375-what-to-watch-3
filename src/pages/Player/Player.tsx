@@ -34,3 +34,4 @@ function Player() {
         </div>
     )
 }
+export default Player;

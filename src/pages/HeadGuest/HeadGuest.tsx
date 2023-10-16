@@ -25,3 +25,4 @@ function HeadGuest() {
         </section>
     )
 }
+export default HeadGuest;
