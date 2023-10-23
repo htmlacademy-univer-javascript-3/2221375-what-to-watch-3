@@ -1,4 +1,15 @@
-function MoviePage() {
+import { useParams } from 'react-router-dom';
+
+interface ImgInform {
+  id: string;
+  imgPath: string;
+  imgName: string;
+}
+
+function MoviePage({ imgData }: { imgData: Array<ImgInform> }): JSX.Element {
+  const params = useParams();
+  const elementImg = imgData.find((img) => img.id === params.id);
+
   return (
     <>
       <section className="film-card film-card--full">
@@ -61,7 +72,7 @@ function MoviePage() {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={elementImg?.imgPath} alt={elementImg?.imgName} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">

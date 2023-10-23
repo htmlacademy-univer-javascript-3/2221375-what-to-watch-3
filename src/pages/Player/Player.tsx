@@ -1,7 +1,18 @@
-function Player() {
+import { useParams } from 'react-router-dom';
+
+interface ImgInform {
+  id: string;
+  imgPath: string;
+  imgName: string;
+}
+
+function Player({ imgData }: { imgData: Array<ImgInform> }) {
+  const params = useParams();
+  const imgElement = imgData.find((img) => img.id === params.id);
+
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src="#" className="player__video" poster={imgElement?.imgPath}></video>
 
       <button type="button" className="player__exit">Exit</button>
 

@@ -1,4 +1,16 @@
-function Review() {
+import { useParams } from 'react-router-dom';
+
+interface ImgInform {
+  id: string;
+  imgPath: string;
+  imgName: string;
+}
+
+function Review({ imgData }: { imgData: Array<ImgInform> }): JSX.Element {
+  const params = useParams();
+  const imgElement = imgData.find((img) => img.id === params.id);
+
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
@@ -41,7 +53,7 @@ function Review() {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={imgElement?.imgPath} alt={imgElement?.imgName} width="218" height="327" />
         </div>
       </div>
 
