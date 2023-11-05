@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-
-const mainProps = {
-  name: 'The Grand Budapest Hotel',
-  genre: 'Drama',
-  dateFilm: '2014'
-};
+import { CardsFilm } from './mocks/films';
+import { SelectedFilmItem } from './const';
+import { SeeReviewFilm } from './mocks/seeReviewFilm';
+import { AddReviewFilm } from './mocks/addReviewFilm';
+import { videoSrc } from './mocks/video';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,6 +13,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App name={mainProps.name} genre={mainProps.genre} dateFilm={mainProps.dateFilm} />
+    <App CardsFilm={CardsFilm} SelectedFilmItem={SelectedFilmItem} selectedFilm={SelectedFilmItem} seeReviewsFilm={SeeReviewFilm} reviewFilm={AddReviewFilm} video={videoSrc} />
   </React.StrictMode>
 );

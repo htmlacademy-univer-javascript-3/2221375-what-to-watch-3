@@ -1,18 +1,26 @@
-import { useParams } from 'react-router-dom';
+import { useRef, useState } from 'react';
 
-interface ImgInform {
-  id: string;
-  imgPath: string;
-  imgName: string;
-}
+type PlayerProps = {
+  video: string;
+};
 
-function Player({ imgData }: { imgData: Array<ImgInform> }) {
-  const params = useParams();
-  const imgElement = imgData.find((img) => img.id === params.id);
+export default function Player({ video }: PlayerProps): JSX.Element {
+  const videoPlayer = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const changePause = (): void => {
+    if (isPlaying && videoPlayer.current !== null) {
+      setIsPlaying(false);
+      videoPlayer.current.pause();
+    } else if (videoPlayer.current !== null) {
+      setIsPlaying(false);
+      videoPlayer.current.play();
+    }
+  };
 
   return (
     <div className="player">
-      <video src="#" className="player__video" poster={imgElement?.imgPath}></video>
+      <video src={video} ref={videoPlayer} className="player__video" poster="img/player-poster.jpg"></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -26,9 +34,9 @@ function Player({ imgData }: { imgData: Array<ImgInform> }) {
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play">
+          <button onClick={changePause} type="button" className="player__play">
             <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"></use>
+              <use xlinkHref='#play-s' href="#play-s"></use>
             </svg>
             <span>Play</span>
           </button>
@@ -36,7 +44,7 @@ function Player({ imgData }: { imgData: Array<ImgInform> }) {
 
           <button type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width="27" height="27">
-              <use xlinkHref="#full-screen"></use>
+              <use xlinkHref='#full-screen' href="#full-screen"></use>
             </svg>
             <span>Full screen</span>
           </button>
@@ -45,5 +53,3 @@ function Player({ imgData }: { imgData: Array<ImgInform> }) {
     </div>
   );
 }
-
-export default Player;
