@@ -22,6 +22,7 @@ function FilmList({ filmsList }: FilmListProps): JSX.Element {
           previewImage={element.previewImage}
           name={element.name}
           changeSelectedFilm={changeSelectedFilm}
+          isSelected={element.id === selectedFilm}
         />))}
     </div>
   );
