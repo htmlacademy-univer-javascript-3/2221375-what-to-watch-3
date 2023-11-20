@@ -1,6 +1,8 @@
 import { FilmCardType, SelectedFilmType } from '../../type/mainType';
 import FilmList from '../../components/film-list/film-list';
 import SelectedFilm from '../../components/selectedFilm/selectedFilm';
+import { useState } from 'react';
+import getFlimsOfGenre from '../../utils/filmList';
 
 type MainProps = {
   CardsFilm: Array<FilmCardType>;
@@ -8,6 +10,22 @@ type MainProps = {
 }
 
 function Main({ CardsFilm, SelectedFilmItem }: MainProps): JSX.Element {
+
+  const [selectedGenre, setSelectedGenre] = useState('All');
+
+  const genres = [
+    { name: 'All genres', value: 'All' },
+    { name: 'Comedies', value: 'Comedy' },
+    { name: 'Crime', value: 'Crime' },
+    { name: 'Documentary', value: 'Documentary' },
+    { name: 'Dramas', value: 'Drama' },
+    { name: 'Horror', value: 'Horror' },
+    { name: 'Kids & Family', value: 'Kids & Family' },
+    { name: 'Romance', value: 'Romance' },
+    { name: 'Sci-Fi', value: 'Sci-Fi' },
+    { name: 'Thrillers', value: 'Thriller' }
+  ];
+
   return (
     <main>
       <section className="film-card">
@@ -37,7 +55,7 @@ function Main({ CardsFilm, SelectedFilmItem }: MainProps): JSX.Element {
             </li>
           </ul>
         </header>
-        {<SelectedFilm name={SelectedFilmItem.name} genre={SelectedFilmItem.genre} posterImage={SelectedFilmItem.posterImage} dateFilm={SelectedFilmItem.released}/>}
+        {<SelectedFilm name={SelectedFilmItem.name} genre={SelectedFilmItem.genre} posterImage={SelectedFilmItem.posterImage} dateFilm={SelectedFilmItem.released} />}
       </section>
 
       <div className="page-content">
@@ -45,39 +63,18 @@ function Main({ CardsFilm, SelectedFilmItem }: MainProps): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
+            {genres.map((genre) => (
+              <li
+                key={genre.value}
+                onClick={() => setSelectedGenre(genre.value)}
+                style={{ cursor: 'pointer' }}
+                className={`catalog__genres-item ${selectedGenre === genre.value ? 'catalog__genres-item--active' : ''}`}
+              >
+                <a className="catalog__genres-link">{genre.name}</a>
+              </li>))}
           </ul>
 
-          <FilmList filmsList={CardsFilm}/>
+          <FilmList filmsList={getFlimsOfGenre(CardsFilm, selectedGenre)} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
