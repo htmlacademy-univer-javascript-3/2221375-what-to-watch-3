@@ -19,3 +19,18 @@ export const SelectedFilmItem: SelectedFilmType = {
   released: 2014,
   isFavorite: false
 };
+
+export const Genres = {
+  All: 'All',
+  Comedy: 'Comedy',
+  Crime: 'Crime',
+  Documentary: 'Documentary',
+  Drama: 'Drama',
+  Horror: 'Horror',
+  KidsFamily: 'KidsFamily',
+  Romance: 'Romance',
+  SciFi: 'SciFi',
+  Thrillers: 'Thrillers',
+};
+
+export type GenresValues = keyof typeof Genres;

@@ -1,30 +1,26 @@
-import { FilmCardType, SelectedFilmType } from '../../type/mainType';
+import { SelectedFilmType } from '../../type/mainType';
 import FilmList from '../../components/film-list/film-list';
 import SelectedFilm from '../../components/selectedFilm/selectedFilm';
-import { useState } from 'react';
-import getFlimsOfGenre from '../../utils/filmList';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Genres, GenresValues } from '../../const';
+import { changeGenre } from '../../store/action';
 
 type MainProps = {
-  CardsFilm: Array<FilmCardType>;
   SelectedFilmItem: SelectedFilmType;
 }
 
-function Main({ CardsFilm, SelectedFilmItem }: MainProps): JSX.Element {
+function Main({ SelectedFilmItem }: MainProps): JSX.Element {
 
-  const [selectedGenre, setSelectedGenre] = useState('All');
+  const selectedGenre = useAppSelector((state) => state.genre);
+  const filmsList = useAppSelector((state) => state.films);
+  const filteredFilms = filmsList.filter((moviePreview) =>
+    selectedGenre === Genres.All
+      ? moviePreview
+      : moviePreview.genre === selectedGenre);
+  const dispatch = useAppDispatch();
 
-  const genres = [
-    { name: 'All genres', value: 'All' },
-    { name: 'Comedies', value: 'Comedy' },
-    { name: 'Crime', value: 'Crime' },
-    { name: 'Documentary', value: 'Documentary' },
-    { name: 'Dramas', value: 'Drama' },
-    { name: 'Horror', value: 'Horror' },
-    { name: 'Kids & Family', value: 'Kids & Family' },
-    { name: 'Romance', value: 'Romance' },
-    { name: 'Sci-Fi', value: 'Sci-Fi' },
-    { name: 'Thrillers', value: 'Thriller' }
-  ];
+  const genres = [...new Set(filmsList.map((film) => film.genre))].sort();
+  genres.unshift(Genres.All);
 
   return (
     <main>
@@ -65,16 +61,18 @@ function Main({ CardsFilm, SelectedFilmItem }: MainProps): JSX.Element {
           <ul className="catalog__genres-list">
             {genres.map((genre) => (
               <li
-                key={genre.value}
-                onClick={() => setSelectedGenre(genre.value)}
+                key={genre}
+                onClick={() => {
+                  dispatch(changeGenre(genre as GenresValues));
+                }}
                 style={{ cursor: 'pointer' }}
-                className={`catalog__genres-item ${selectedGenre === genre.value ? 'catalog__genres-item--active' : ''}`}
+                className={`catalog__genres-item ${selectedGenre === genre ? 'catalog__genres-item--active' : ''}`}
               >
-                <a className="catalog__genres-link">{genre.name}</a>
+                <a className="catalog__genres-link">{genre}</a>
               </li>))}
           </ul>
 
-          <FilmList filmsList={getFlimsOfGenre(CardsFilm, selectedGenre)} />
+          <FilmList filmsList={filteredFilms} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
