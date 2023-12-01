@@ -26,7 +26,7 @@ function App(props: AppProps): JSX.Element {
         <Route
           path='/'
           element={
-            <Main CardsFilm={props.CardsFilm} SelectedFilmItem={props.SelectedFilmItem} />
+            <Main SelectedFilmItem={props.SelectedFilmItem} />
           }
         />
         <Route
