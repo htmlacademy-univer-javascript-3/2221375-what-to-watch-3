@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import FilmReviews from '../../components/filmReviews/filmReviews';
 import { useState } from 'react';
 import { SeeReviewFilmType } from '../../type/mainType';
-import FilmList from '../../components/film-list/film-list';
+import FilmList from '../../components/filmList/filmList';
 import getFlimsOfGenre from '../../utils/filmList';
 import { CardsFilm } from '../../mocks/films';
 
@@ -139,7 +139,7 @@ function MoviePage(props: MoviePageProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          {<FilmList filmsList={getFlimsOfGenre(CardsFilm, props.selectedFilm.genre)}/>}
+          {<FilmList filmsSection={8} filmsList={getFlimsOfGenre(CardsFilm, props.selectedFilm.genre)}/>}
         </section>
 
         <footer className="page-footer">

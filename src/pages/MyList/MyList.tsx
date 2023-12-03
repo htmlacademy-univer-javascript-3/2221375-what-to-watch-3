@@ -1,14 +1,12 @@
-import { ReactNode } from 'react';
-import FilmList from '../../components/film-list/film-list';
+import FilmList from '../../components/filmList/filmList';
 import { FilmCardType } from '../../type/mainType';
-import { CardsFilm } from '../../mocks/films';
 
 type MyListProps = {
   CardsFilm: Array<FilmCardType>;
 };
 
 
-function MyList(props: MyListProps) {
+function MyList({ CardsFilm }: MyListProps) {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -35,7 +33,7 @@ function MyList(props: MyListProps) {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        {<FilmList filmsList={CardsFilm} />}
+        {<FilmList filmsSection={8} filmsList={CardsFilm} />}
       </section >
 
       <footer className="page-footer">
