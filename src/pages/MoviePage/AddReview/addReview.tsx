@@ -1,4 +1,4 @@
-import { AddReviewFilmType } from '../../../type/mainType';
+import { AddReviewFilmType } from '../../../types/mainType';
 import { Link } from 'react-router-dom';
 import AddReviewForm from '../../../components/addReviewForm/addReviewForm';
 

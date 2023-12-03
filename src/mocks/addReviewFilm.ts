@@ -1,4 +1,4 @@
-import { AddReviewFilmType } from '../type/mainType';
+import { AddReviewFilmType } from '../types/mainType';
 
 export const AddReviewFilm: AddReviewFilmType = {
   backgroundImage: 'img/bg-the-grand-budapest-hotel.jpg',

@@ -5,9 +5,10 @@ import MyList from '../../pages/MyList/MyList';
 import Player from '../../pages/Player/Player';
 import SignIn from '../../pages/SignIn/SignIn';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PrivateRoute, { AuthorizationStatus } from '../private-route/private-route';
-import { FilmCardType, SelectedFilmType } from '../../type/mainType';
-import { SeeReviewFilmType, AddReviewFilmType } from '../../type/mainType';
+import PrivateRoute from '../private-route/private-route';
+import { AuthorizationStatus } from '../../const';
+import { FilmCardType, SelectedFilmType } from '../../types/mainType';
+import { SeeReviewFilmType, AddReviewFilmType } from '../../types/mainType';
 import AddReview from '../../pages/MoviePage/AddReview/addReview';
 
 type AppProps = {

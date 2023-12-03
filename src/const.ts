@@ -1,4 +1,12 @@
-import { SelectedFilmType } from './type/mainType';
+import { SelectedFilmType } from './types/mainType';
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'Unknown'
+}
+
+export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const SelectedFilmItem: SelectedFilmType = {
   id: 'aba664c3-bdf3-4fb3-b8f3-42e007864bbf',
@@ -19,6 +27,12 @@ export const SelectedFilmItem: SelectedFilmType = {
   released: 2014,
   isFavorite: false
 };
+
+export enum APIRoute {
+  Films = '/films',
+  Login = '/login',
+  Logout = '/logout'
+}
 
 export const Genres = {
   All: 'All',

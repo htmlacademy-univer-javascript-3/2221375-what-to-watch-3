@@ -8,6 +8,11 @@ import { AddReviewFilm } from './mocks/addReviewFilm';
 import { videoSrc } from './mocks/video';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import ErrorMessage from './components/errorMessage/errorMessage';
+import { checkAuthAction, fetchFilmsAction } from './store/apiActions';
+
+store.dispatch(checkAuthAction());
+store.dispatch(fetchFilmsAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,6 +21,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ErrorMessage/>
       <App CardsFilm={CardsFilm} SelectedFilmItem={SelectedFilmItem} selectedFilm={SelectedFilmItem} seeReviewsFilm={SeeReviewFilm} reviewFilm={AddReviewFilm} video={videoSrc} />
     </Provider>
 
