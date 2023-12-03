@@ -1,6 +1,6 @@
 import { CardsFilm } from '../mocks/films';
 import { createReducer } from '@reduxjs/toolkit';
-import { changeGenre, getFilms, loadFilms, requireAuthorization, setError, setFilmsDataLoadingStatus } from './action';
+import { changeGenre, getFilms, loadAuthorPreview, loadFilms, requireAuthorization, setError, setFilmsDataLoadingStatus } from './action';
 import { FilmCardType } from '../types/mainType';
 import { AuthorizationStatus, Genres } from '../const';
 
@@ -11,6 +11,7 @@ type InitialState = {
   AuthorizationStatus: AuthorizationStatus;
   isFilmsDataLoading: boolean;
   error: string | null;
+  authorPreview: string | null;
 }
 
 const initialState: InitialState = {
@@ -18,7 +19,8 @@ const initialState: InitialState = {
   films: [],
   AuthorizationStatus: AuthorizationStatus.Unknown,
   isFilmsDataLoading: false,
-  error: null
+  error: null,
+  authorPreview: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -37,6 +39,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.AuthorizationStatus = action.payload;
+    })
+    .addCase(loadAuthorPreview, (state, action) => {
+      state.authorPreview = action.payload;
     })
     .addCase(setError, (state, action) => {
       state.error = action.payload;

@@ -4,12 +4,16 @@ import MoviePage from '../../pages/MoviePage/MoviePage';
 import MyList from '../../pages/MyList/MyList';
 import Player from '../../pages/Player/Player';
 import SignIn from '../../pages/SignIn/SignIn';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
-import { AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { FilmCardType, SelectedFilmType } from '../../types/mainType';
 import { SeeReviewFilmType, AddReviewFilmType } from '../../types/mainType';
 import AddReview from '../../pages/MoviePage/AddReview/addReview';
+import { useAppSelector } from '../../hooks/index.ts';
+import Spinner from '../spinner/spinner.tsx';
+import HistoryRouter from '../historyRouter/historyRouter.tsx';
+import { browserHistory } from '../../browserHistory.ts';
 
 type AppProps = {
   CardsFilm: Array<FilmCardType>;
@@ -21,39 +25,45 @@ type AppProps = {
 }
 
 function App(props: AppProps): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.AuthorizationStatus);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <Spinner />;
+  }
+
   return (
-    <BrowserRouter>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route
-          path='/'
+          path={AppRoute.Main}
           element={
             <Main SelectedFilmItem={props.SelectedFilmItem} />
           }
         />
         <Route
-          path='/login'
+          path={AppRoute.SignIn}
           element={<SignIn />}
         />
         <Route
-          path='/mylist'
+          path={AppRoute.MyList}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={authorizationStatus}
             >
               <MyList CardsFilm={props.CardsFilm} />
             </PrivateRoute>
           }
         />
         <Route
-          path='/films/:id'
+          path={AppRoute.Film}
           element={<MoviePage selectedFilm={props.selectedFilm} seeReviewsFilm={props.seeReviewsFilm} />}
         />
         <Route
-          path='/films/:id/review'
+          path={AppRoute.AddReview}
           element={<AddReview reviewFilm={props.reviewFilm} />}
         />
         <Route
-          path='/player/:id'
+          path={AppRoute.Player}
           element={<Player video={props.video} />}
         />
         <Route
@@ -61,7 +71,7 @@ function App(props: AppProps): JSX.Element {
           element={<Page404 />}
         />
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 }
 

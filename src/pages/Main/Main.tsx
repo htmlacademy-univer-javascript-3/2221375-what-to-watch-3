@@ -2,10 +2,12 @@ import { SelectedFilmType } from '../../types/mainType';
 import FilmList from '../../components/filmList/filmList';
 import SelectedFilm from '../../components/selectedFilm/selectedFilm';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { Genres, GenresValues } from '../../const';
+import { AppRoute, AuthorizationStatus, Genres, GenresValues } from '../../const';
 import { changeGenre } from '../../store/action';
 import { useState } from 'react';
 import Spinner from '../../components/spinner/spinner';
+import { Link } from 'react-router-dom';
+import { logoutAction } from '../../store/apiActions';
 
 type MainProps = {
   SelectedFilmItem: SelectedFilmType;
@@ -18,6 +20,8 @@ function Main({ SelectedFilmItem }: MainProps): JSX.Element {
   const selectedGenre = useAppSelector((state) => state.genre);
   const filmsList = useAppSelector((state) => state.films);
   const isFilmsLoading = useAppSelector((state) => state.isFilmsDataLoading);
+  const authorizationStatus = useAppSelector((state) => state.AuthorizationStatus);
+  const authorAvatar = useAppSelector((state) => state.authorPreview);
   const filteredFilms = filmsList.filter((moviePreview) =>
     selectedGenre === Genres.All
       ? moviePreview
@@ -46,16 +50,25 @@ function Main({ SelectedFilmItem }: MainProps): JSX.Element {
             </a>
           </div>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          {authorizationStatus === AuthorizationStatus.Auth ?
+            <ul className="user-block">
+              <li className="user-block__item">
+                <div className="user-block__avatar">
+                  <img src={authorAvatar ? authorAvatar : ''} alt="User avatar" width="63" height="63" />
+                </div>
+              </li>
+              <li className="user-block__item">
+                <a onClick={() => {
+                  dispatch(logoutAction());
+                }} className="user-block__link"
+                >Sign out
+                </a>
+              </li>
+            </ul>
+            :
+            <div className="user-block">
+              <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
+            </div>}
         </header>
         {<SelectedFilm name={SelectedFilmItem.name} genre={SelectedFilmItem.genre} posterImage={SelectedFilmItem.posterImage} dateFilm={SelectedFilmItem.released} />}
       </section>
