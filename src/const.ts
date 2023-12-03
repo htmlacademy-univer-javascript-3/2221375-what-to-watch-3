@@ -6,6 +6,15 @@ export enum AuthorizationStatus {
   Unknown = 'Unknown'
 }
 
+export enum AppRoute {
+  Main = '/',
+  SignIn = '/login',
+  MyList = '/mylist',
+  Film = '/films/:id',
+  AddReview = '/films/:id/review',
+  Player = '/player/:id'
+}
+
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export const SelectedFilmItem: SelectedFilmType = {
