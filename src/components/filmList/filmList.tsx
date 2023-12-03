@@ -4,18 +4,20 @@ import FilmCard from '../filmCard/filmCard';
 
 type FilmListProps = {
   filmsList: Array<FilmCardType>;
+  filmsSection: number;
 }
 
-function FilmList({ filmsList }: FilmListProps): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+function FilmList({ filmsList, filmsSection }: FilmListProps): JSX.Element {
   const [selectedFilm, setSelectedFilm] = useState('');
+  const newFilmsList = filmsList.slice(0, filmsSection);
+
   const changeSelectedFilm = (id: string): void => {
     setSelectedFilm(id);
   };
 
   return (
     <div className="catalog__films-list">
-      {filmsList.map((element) => (
+      {newFilmsList.map((element) => (
         <FilmCard
           key={element.id}
           id={element.id}
