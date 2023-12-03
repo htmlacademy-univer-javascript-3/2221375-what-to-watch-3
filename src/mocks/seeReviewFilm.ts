@@ -1,4 +1,4 @@
-import { SeeReviewFilmType } from '../type/mainType';
+import { SeeReviewFilmType } from '../types/mainType';
 
 export const SeeReviewFilm: Array<SeeReviewFilmType> = [
   {

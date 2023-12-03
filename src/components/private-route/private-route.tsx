@@ -1,10 +1,5 @@
 import { Navigate } from 'react-router-dom';
-
-export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'Unknown'
-}
+import { AuthorizationStatus } from '../../const';
 
 type PrivateRouteProps = {
   authorizationStatus: AuthorizationStatus;

@@ -1,5 +1,5 @@
 import FilmList from '../../components/filmList/filmList';
-import { FilmCardType } from '../../type/mainType';
+import { FilmCardType } from '../../types/mainType';
 
 type MyListProps = {
   CardsFilm: Array<FilmCardType>;

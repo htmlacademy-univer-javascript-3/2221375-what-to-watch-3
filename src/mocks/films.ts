@@ -1,4 +1,4 @@
-import { FilmCardType } from '../type/mainType';
+import { FilmCardType } from '../types/mainType';
 
 export const CardsFilm: Array<FilmCardType> = [
   { id: '1', previewImage: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg', name: 'Fantastic Beasts: The Crimes of Grindelwald', genre: 'Thriller', dateFilm: '#' },

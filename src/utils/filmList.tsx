@@ -1,4 +1,4 @@
-import { FilmCardType } from '../type/mainType';
+import { FilmCardType } from '../types/mainType';
 
 function getFlimsOfGenre(filmList:Array<FilmCardType>, genre:string): Array<FilmCardType>{
   if (genre === 'All'){

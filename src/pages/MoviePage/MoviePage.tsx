@@ -1,10 +1,10 @@
-import { SelectedFilmType } from '../../type/mainType';
+import { SelectedFilmType } from '../../types/mainType';
 import FilmOverview from '../../components/filmOverview/filmOwervie';
 import FilmDetails from '../../components/filmDetails/filmDetails';
 import { Link } from 'react-router-dom';
 import FilmReviews from '../../components/filmReviews/filmReviews';
 import { useState } from 'react';
-import { SeeReviewFilmType } from '../../type/mainType';
+import { SeeReviewFilmType } from '../../types/mainType';
 import FilmList from '../../components/filmList/filmList';
 import getFlimsOfGenre from '../../utils/filmList';
 import { CardsFilm } from '../../mocks/films';

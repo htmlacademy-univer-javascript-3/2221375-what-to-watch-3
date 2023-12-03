@@ -1,10 +1,11 @@
-import { SelectedFilmType } from '../../type/mainType';
+import { SelectedFilmType } from '../../types/mainType';
 import FilmList from '../../components/filmList/filmList';
 import SelectedFilm from '../../components/selectedFilm/selectedFilm';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Genres, GenresValues } from '../../const';
 import { changeGenre } from '../../store/action';
 import { useState } from 'react';
+import Spinner from '../../components/spinner/spinner';
 
 type MainProps = {
   SelectedFilmItem: SelectedFilmType;
@@ -16,6 +17,7 @@ function Main({ SelectedFilmItem }: MainProps): JSX.Element {
 
   const selectedGenre = useAppSelector((state) => state.genre);
   const filmsList = useAppSelector((state) => state.films);
+  const isFilmsLoading = useAppSelector((state) => state.isFilmsDataLoading);
   const filteredFilms = filmsList.filter((moviePreview) =>
     selectedGenre === Genres.All
       ? moviePreview
@@ -76,7 +78,7 @@ function Main({ SelectedFilmItem }: MainProps): JSX.Element {
               </li>))}
           </ul>
 
-          <FilmList filmsSection={filmsSection} filmsList={filteredFilms} />
+          {isFilmsLoading ? <FilmList filmsSection={filmsSection} filmsList={filteredFilms} /> : <Spinner />}
 
           {filmsSection < filteredFilms.length &&
             <div className="catalog__more">
