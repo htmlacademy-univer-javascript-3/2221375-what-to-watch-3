@@ -1,49 +1,71 @@
-import { CardsFilm } from '../mocks/films';
 import { createReducer } from '@reduxjs/toolkit';
-import { changeGenre, getFilms, loadAuthorPreview, loadFilms, requireAuthorization, setError, setFilmsDataLoadingStatus } from './action';
-import { FilmCardType } from '../types/mainType';
+import { changeGenre, loadAuthorPreview, setError, loadFilmInfo, loadFilms, requireAuthorization, setFilmInfoDataLoadingStatus, setFilmReviewData, setFilmSimilarData, setFilmsDataLoadingStatus } from './action';
+import { FilmCardType, SelectedFilmType } from '../types/mainType';
 import { AuthorizationStatus, Genres } from '../const';
-
+import { FilmReview, SimilarFilm } from '../types/mainType';
 
 type InitialState = {
+  filmInfo: SelectedFilmType | null;
+  filmReviews: FilmReview[];
+  similarFilms: SimilarFilm[];
   genre: string;
   films: FilmCardType[];
   AuthorizationStatus: AuthorizationStatus;
-  isFilmsDataLoading: boolean;
   error: string | null;
   authorPreview: string | null;
+  isFilmsDataLoading: boolean;
+  isFilmInfoLoading: boolean;
 }
 
 const initialState: InitialState = {
   genre: Genres.All,
   films: [],
+  filmInfo: null,
+  filmReviews: [],
+  similarFilms: [],
   AuthorizationStatus: AuthorizationStatus.Unknown,
   isFilmsDataLoading: false,
   error: null,
-  authorPreview: null
+  authorPreview: null,
+  isFilmInfoLoading: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeGenre, (state, action) => {
-      state.genre = action.payload;
-    })
-    .addCase(getFilms, (state) => {
-      state.films = CardsFilm;
+      const { payload } = action;
+      state.genre = payload;
     })
     .addCase(loadFilms, (state, action) => {
-      state.films = action.payload;
+      const { payload } = action;
+      state.films = payload;
+    })
+    .addCase(loadFilmInfo, (state, action) =>{
+      state.filmInfo = action.payload;
     })
     .addCase(setFilmsDataLoadingStatus, (state, action) => {
-      state.isFilmsDataLoading = action.payload;
+      const { payload } = action;
+      state.isFilmsDataLoading = payload;
     })
     .addCase(requireAuthorization, (state, action) => {
-      state.AuthorizationStatus = action.payload;
+      const { payload } = action;
+      state.AuthorizationStatus = payload;
+    })
+    .addCase(setFilmInfoDataLoadingStatus, (state, action) => {
+      state.isFilmInfoLoading = action.payload;
+    })
+    .addCase(setFilmReviewData, (state, action) =>{
+      state.filmReviews = action.payload;
+    })
+    .addCase(setFilmSimilarData, (state, action) =>{
+      state.similarFilms = action.payload;
     })
     .addCase(loadAuthorPreview, (state, action) => {
-      state.authorPreview = action.payload;
+      const { payload } = action;
+      state.authorPreview = payload;
     })
     .addCase(setError, (state, action) => {
-      state.error = action.payload;
+      const { payload } = action;
+      state.error = payload;
     });
 });

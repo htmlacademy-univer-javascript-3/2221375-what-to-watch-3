@@ -23,6 +23,7 @@ function FilmList({ filmsList, filmsSection }: FilmListProps): JSX.Element {
           id={element.id}
           previewImage={element.previewImage}
           name={element.name}
+          previewVideo={element.previewVideoLink}
           changeSelectedFilm={changeSelectedFilm}
           isSelected={element.id === selectedFilm}
         />))}
