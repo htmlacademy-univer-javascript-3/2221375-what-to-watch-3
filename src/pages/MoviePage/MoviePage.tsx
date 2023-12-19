@@ -1,154 +1,155 @@
-import { SelectedFilmType } from '../../types/mainType';
 import FilmOverview from '../../components/filmOverview/filmOwervie';
 import FilmDetails from '../../components/filmDetails/filmDetails';
-import { Link } from 'react-router-dom';
 import FilmReviews from '../../components/filmReviews/filmReviews';
-import { useState } from 'react';
-import { SeeReviewFilmType } from '../../types/mainType';
+import { Link, generatePath, useParams } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useState, useEffect } from 'react';
 import FilmList from '../../components/filmList/filmList';
-import getFlimsOfGenre from '../../utils/filmList';
-import { CardsFilm } from '../../mocks/films';
+import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms } from '../../store/apiActions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import Spinner from '../../components/spinner/spinner';
+import Header from '../../components/header/header';
 
-type MoviePageProps = {
-  selectedFilm: SelectedFilmType;
-  seeReviewsFilm: Array<SeeReviewFilmType>;
-}
 
-function MoviePage(props: MoviePageProps): JSX.Element {
+function MoviePage(): JSX.Element {
   const [pageNow, setPageNow] = useState('Overview');
+  const film = useAppSelector((state) => state.filmInfo);
+  const similarFilms = useAppSelector((state) => state.similarFilms);
+  const filmReviews = useAppSelector((state) => state.filmReviews);
+  const isFilmLoading = useAppSelector((state) => state.isFilmInfoLoading);
+  const { id } = useParams();
+  const authorizationStatus = useAppSelector((state) => state.AuthorizationStatus);
+  const authorAvatar = useAppSelector((state) => state.authorPreview);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchSimilarFilms(id));
+      dispatch(fetchFilmReviews(id));
+      dispatch(fetchFilmInfoAction(id));
+    }
+  }, [dispatch, id]);
+
 
   const getStarring = (): string => {
     let result = '';
-    props.selectedFilm.starring.map((element, index) => {
-      if (index + 1 !== props.selectedFilm.starring.length) {
-        result += `${element}, `;
-      } else {
-        result += element;
-      }
-    });
+    if (film) {
+      film.starring.map((element, index) => {
+        if (index + 1 !== film.starring.length) {
+          result += `${element}, `;
+        } else {
+          result += element;
+        }
+      });
+    }
     return result;
   };
 
   const getPage = () => {
-    if (pageNow === 'Overview') {
-      return <FilmOverview rating={props.selectedFilm.rating} scoresCount={props.selectedFilm.scoresCount} starringList={getStarring()} description={props.selectedFilm.description} director={props.selectedFilm.director} />;
-    } else if (pageNow === 'Details') {
-      return <FilmDetails />;
+    if (pageNow === 'Overview' && film) {
+      return <FilmOverview rating={film.rating} scoresCount={film.scoresCount} starringList={getStarring()} description={film.description} director={film.director} />;
+    } else if (pageNow === 'Details' && film) {
+      return <FilmDetails director={film.director} starring={film.starring} runTime={film.runTime} genre={film.genre} released={film.released} />;
     }
-    return <FilmReviews seeReviewsFilm={props.seeReviewsFilm} />;
+    return <FilmReviews seeReviewsFilm={filmReviews} />;
   };
+
+  if (isFilmLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
-      <section className="film-card film-card--full">
-        <div className="film-card__hero">
-          <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
-          </div>
-
-          <h1 className="visually-hidden">WTW</h1>
-
-          <header className="page-header film-card__head">
-            <div className="logo">
-              <Link to={'/'} className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </Link>
+      {film &&
+        <section className="film-card film-card--full">
+          <div className="film-card__hero">
+            <div className="film-card__bg">
+              <img src={film.backgroundImage} alt="The Grand Budapest Hotel" />
             </div>
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+            <h1 className="visually-hidden">WTW</h1>
+            {authorAvatar && <Header authorizationStatus={authorizationStatus} authorAvatar={authorAvatar} />}
+
+            <div className="film-card__wrap">
+              <div className="film-card__desc">
+                <h2 className="film-card__title">{film.name}</h2>
+                <p className="film-card__meta">
+                  <span className="film-card__genre">{film.genre}</span>
+                  <span className="film-card__year">{film.released}</span>
+                </p>
+
+                <div className="film-card__buttons">
+                  <button className="btn btn--play film-card__button" type="button">
+                    <svg viewBox="0 0 19 19" width="19" height="19">
+                      <use xlinkHref='#play-s' href="#play-s"></use>
+                    </svg>
+                    <span>Play</span>
+                  </button>
+                  <button className="btn btn--list film-card__button" type="button">
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref='#add' href="#add"></use>
+                    </svg>
+                    <span>My list</span>
+                    <span className="film-card__count">9</span>
+                  </button>
+                  {authorizationStatus === AuthorizationStatus.Auth && id && <Link to={generatePath(AppRoute.AddReview, { id: id })} className="btn film-card__button">Add review</Link>}
                 </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
-          </header>
-
-          <div className="film-card__wrap">
-            <div className="film-card__desc">
-              <h2 className="film-card__title">{props.selectedFilm.name}</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">{props.selectedFilm.genre}</span>
-                <span className="film-card__year">{props.selectedFilm.released}</span>
-              </p>
-
-              <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref='#play-s' href="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref='#add' href="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
-                <Link to={'/films/:id/review'} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="film-card__wrap film-card__translate-top">
-          <div className="film-card__info">
-            <div className="film-card__poster film-card__poster--big">
-              <img src={props.selectedFilm.posterImage} alt={`${props.selectedFilm.name} poster`} width="218" height="327" />
-            </div>
+          <div className="film-card__wrap film-card__translate-top">
+            <div className="film-card__info">
+              <div className="film-card__poster film-card__poster--big">
+                <img src={film.posterImage} alt={`${film.name} poster`} width="218" height="327" />
+              </div>
 
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li style={{ cursor: 'pointer' }} className={`film-nav__item ${pageNow === 'Overview' ? 'film-nav__item--active' : ''}`}>
-                    <a className="film-nav__link" onClick={() => {
-                      setPageNow('Overview');
-                    }}
-                    >Overview
-                    </a>
-                  </li>
-                  <li style={{ cursor: 'pointer' }} className={`film-nav__item ${pageNow === 'Details' ? 'film-nav__item--active' : ''}`}>
-                    <a className="film-nav__link" onClick={() => {
-                      setPageNow('Details');
-                    }}
-                    >Details
-                    </a>
-                  </li>
-                  <li style={{ cursor: 'pointer' }} className={`film-nav__item ${pageNow === 'Reviews' ? 'film-nav__item--active' : ''}`}>
-                    <a className="film-nav__link" onClick={() => {
-                      setPageNow('Reviews');
-                    }}
-                    >Reviews
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-              {getPage()}
+              <div className="film-card__desc">
+                <nav className="film-nav film-card__nav">
+                  <ul className="film-nav__list">
+                    <li style={{ cursor: 'pointer' }} className={`film-nav__item ${pageNow === 'Overview' ? 'film-nav__item--active' : ''}`}>
+                      <a className="film-nav__link" onClick={() => {
+                        setPageNow('Overview');
+                      }}
+                      >Overview
+                      </a>
+                    </li>
+                    <li style={{ cursor: 'pointer' }} className={`film-nav__item ${pageNow === 'Details' ? 'film-nav__item--active' : ''}`}>
+                      <a className="film-nav__link" onClick={() => {
+                        setPageNow('Details');
+                      }}
+                      >Details
+                      </a>
+                    </li>
+                    <li style={{ cursor: 'pointer' }} className={`film-nav__item ${pageNow === 'Reviews' ? 'film-nav__item--active' : ''}`}>
+                      <a className="film-nav__link" onClick={() => {
+                        setPageNow('Reviews');
+                      }}
+                      >Reviews
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+                {getPage()}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>}
 
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          {<FilmList filmsSection={8} filmsList={getFlimsOfGenre(CardsFilm, props.selectedFilm.genre)}/>}
+          {film && <FilmList filmsSection={8} filmsList={similarFilms}/>}
         </section>
 
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <Link to={AppRoute.Main} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">

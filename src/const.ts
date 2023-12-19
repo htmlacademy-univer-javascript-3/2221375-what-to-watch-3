@@ -12,7 +12,8 @@ export enum AppRoute {
   MyList = '/mylist',
   Film = '/films/:id',
   AddReview = '/films/:id/review',
-  Player = '/player/:id'
+  Player = '/player/:id',
+  PageNotFound404 = '/*'
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
@@ -40,7 +41,8 @@ export const SelectedFilmItem: SelectedFilmType = {
 export enum APIRoute {
   Films = '/films',
   Login = '/login',
-  Logout = '/logout'
+  Logout = '/logout',
+  Comments = '/comments'
 }
 
 export const Genres = {
