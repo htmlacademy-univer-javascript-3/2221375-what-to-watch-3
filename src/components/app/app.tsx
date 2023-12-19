@@ -13,6 +13,7 @@ import { useAppSelector } from '../../hooks/index.ts';
 import Spinner from '../spinner/spinner.tsx';
 import HistoryRouter from '../historyRouter/historyRouter.tsx';
 import { browserHistory } from '../../browserHistory.ts';
+import { getAuthorizationStatus } from '../../store/userProcess/selectors.ts';
 
 type AppProps = {
   CardsFilm: Array<FilmCardType>;
@@ -21,7 +22,7 @@ type AppProps = {
 }
 
 function App(props: AppProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.AuthorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <Spinner />;

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { FilmCardType } from '../../types/mainType';
 import FilmCard from '../filmCard/filmCard';
 
@@ -8,12 +7,7 @@ type FilmListProps = {
 }
 
 function FilmList({ filmsList, filmsSection }: FilmListProps): JSX.Element {
-  const [selectedFilm, setSelectedFilm] = useState('');
   const newFilmsList = filmsList.slice(0, filmsSection);
-
-  const changeSelectedFilm = (id: string): void => {
-    setSelectedFilm(id);
-  };
 
   return (
     <div className="catalog__films-list">
@@ -24,8 +18,6 @@ function FilmList({ filmsList, filmsSection }: FilmListProps): JSX.Element {
           previewImage={element.previewImage}
           name={element.name}
           previewVideo={element.previewVideoLink}
-          changeSelectedFilm={changeSelectedFilm}
-          isSelected={element.id === selectedFilm}
         />))}
     </div>
   );
