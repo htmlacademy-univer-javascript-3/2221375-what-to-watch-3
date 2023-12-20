@@ -7,7 +7,6 @@ import SignIn from '../../pages/SignIn/SignIn';
 import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { FilmCardType, SelectedFilmType } from '../../types/mainType';
 import AddReview from '../../pages/MoviePage/AddReview/addReview';
 import { useAppSelector } from '../../hooks/index.ts';
 import Spinner from '../spinner/spinner.tsx';
@@ -15,13 +14,7 @@ import HistoryRouter from '../historyRouter/historyRouter.tsx';
 import { browserHistory } from '../../browserHistory.ts';
 import { getAuthorizationStatus } from '../../store/userProcess/selectors.ts';
 
-type AppProps = {
-  CardsFilm: Array<FilmCardType>;
-  SelectedFilmItem: SelectedFilmType;
-  video: string;
-}
-
-function App(props: AppProps): JSX.Element {
+function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
@@ -34,7 +27,7 @@ function App(props: AppProps): JSX.Element {
         <Route
           path={AppRoute.Main}
           element={
-            <Main SelectedFilmItem={props.SelectedFilmItem} />
+            <Main />
           }
         />
         <Route
@@ -47,7 +40,7 @@ function App(props: AppProps): JSX.Element {
             <PrivateRoute
               authorizationStatus={authorizationStatus}
             >
-              <MyList CardsFilm={props.CardsFilm} />
+              <MyList />
             </PrivateRoute>
           }
         />
@@ -61,7 +54,7 @@ function App(props: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.Player}
-          element={<Player video={props.video} />}
+          element={<Player />}
         />
         <Route
           path='*'

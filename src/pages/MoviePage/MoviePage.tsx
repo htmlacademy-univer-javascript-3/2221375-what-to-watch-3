@@ -1,27 +1,30 @@
 import FilmOverview from '../../components/filmOverview/filmOwervie';
 import FilmDetails from '../../components/filmDetails/filmDetails';
 import FilmReviews from '../../components/filmReviews/filmReviews';
-import { Link, generatePath, useParams } from 'react-router-dom';
+import { Link, generatePath, useParams, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useState, useEffect } from 'react';
 import FilmList from '../../components/filmList/filmList';
-import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms } from '../../store/apiActions';
+import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms, fetchChangeFilmStatus } from '../../store/apiActions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
-import { getAuthorAvatar, getAuthorizationStatus } from '../../store/userProcess/selectors';
-import { getFilmInfo, getFilmInfoLoadStatus, getSimilarFilms } from '../../store/filmProcess/selectors';
+import { getAuthorizationStatus } from '../../store/userProcess/selectors';
+import { getFilmInfo, getFilmInfoLoadStatus, getSimilarFilms, getMyList, getSimilarFilmsLoadStatus } from '../../store/filmProcess/selectors';
 import { getFilmReviews } from '../../store/reviewProcess/selectors';
-
+import PageNotFound from '../pageNotFound/pageNotFound';
+import Footer from '../../components/footer/footer';
 
 function MoviePage(): JSX.Element {
   const [pageNow, setPageNow] = useState('Overview');
   const { id } = useParams();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const authorAvatar = useAppSelector(getAuthorAvatar);
   const film = useAppSelector(getFilmInfo);
   const similarFilms = useAppSelector(getSimilarFilms);
   const filmReviews = useAppSelector(getFilmReviews);
+  const filmlist = useAppSelector(getMyList);
+  const isSimilarFilmsLoading = useAppSelector(getSimilarFilmsLoadStatus);
+  const navigate = useNavigate();
   const isFilmLoading = useAppSelector(getFilmInfoLoadStatus);
   const dispatch = useAppDispatch();
 
@@ -57,21 +60,24 @@ function MoviePage(): JSX.Element {
     return <FilmReviews seeReviewsFilm={filmReviews} />;
   };
 
-  if (isFilmLoading) {
+  if (isFilmLoading || isSimilarFilmsLoading) {
     return <Spinner />;
+  }
+  if (!id || !film) {
+    return <PageNotFound />;
   }
 
   return (
     <>
       {film &&
-        <section className="film-card film-card--full">
+        <section className="film-card film-card--full" style={{ backgroundColor: film.backgroundColor }}>
           <div className="film-card__hero">
             <div className="film-card__bg">
               <img src={film.backgroundImage} alt="The Grand Budapest Hotel" />
             </div>
 
             <h1 className="visually-hidden">WTW</h1>
-            <Header authorizationStatus={authorizationStatus} authorAvatar={authorAvatar} />
+            <Header />
 
             <div className="film-card__wrap">
               <div className="film-card__desc">
@@ -82,18 +88,26 @@ function MoviePage(): JSX.Element {
                 </p>
 
                 <div className="film-card__buttons">
-                  <button className="btn btn--play film-card__button" type="button">
+                  <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${film.id}`)}>
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use xlinkHref='#play-s' href="#play-s"></use>
                     </svg>
                     <span>Play</span>
                   </button>
-                  <button className="btn btn--list film-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref='#add' href="#add"></use>
-                    </svg>
+                  <button className="btn btn--list film-card__button" type="button" onClick={() => {
+                    dispatch(fetchChangeFilmStatus({ id: film.id, status: Number(!film.isFavorite) }));
+                    navigate(AppRoute.MyList);
+                  }}
+                  >
+                    {film.isFavorite ?
+                      <svg width="18" height="14" viewBox="0 0 18 14">
+                        <use xlinkHref="#in-list"></use>
+                      </svg> :
+                      <svg viewBox="0 0 19 20" width="19" height="20">
+                        <use xlinkHref="#add"></use>
+                      </svg>}
                     <span>My list</span>
-                    <span className="film-card__count">9</span>
+                    <span className="film-card__count">{filmlist.length}</span>
                   </button>
                   {authorizationStatus === AuthorizationStatus.Auth && id && <Link to={generatePath(AppRoute.AddReview, { id: id })} className="btn film-card__button">Add review</Link>}
                 </div>
@@ -143,22 +157,10 @@ function MoviePage(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          {film && <FilmList filmsSection={8} filmsList={similarFilms} />}
+          <FilmList filmsSection={4} filmsList={similarFilms} />
         </section>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <Link to={AppRoute.Main} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

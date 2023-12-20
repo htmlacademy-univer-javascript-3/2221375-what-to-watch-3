@@ -1,6 +1,6 @@
 import './pageNotFound.css';
 
-function Page404(): JSX.Element {
+function PageNotFound(): JSX.Element {
   return (
     <body className='pageNotFound'>
       <section className="notFound">
@@ -19,4 +19,4 @@ function Page404(): JSX.Element {
     </body>
   );
 }
-export default Page404;
+export default PageNotFound;

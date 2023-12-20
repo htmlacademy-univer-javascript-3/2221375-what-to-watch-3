@@ -1,54 +1,48 @@
-import { SelectedFilmType } from '../../types/mainType';
 import SelectedFilm from '../../components/selectedFilm/selectedFilm';
 import Header from '../../components/header/header';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
 import { Genres } from '../../const';
-import { getFilms } from '../../store/filmProcess/selectors';
-import { getAuthorAvatar, getAuthorizationStatus } from '../../store/userProcess/selectors';
+import { getFilms, getPromoFilm, getPromoFilmLoadStatus } from '../../store/filmProcess/selectors';
 import FilmCatalog from '../../components/filmCatalog/filmCatalog';
+import Spinner from '../../components/spinner/spinner';
+import { useEffect } from 'react';
+import { fetchPromoFilm } from '../../store/apiActions';
+import Footer from '../../components/footer/footer';
 
-type MainProps = {
-  SelectedFilmItem: SelectedFilmType;
-}
 
-
-function Main({ SelectedFilmItem }: MainProps): JSX.Element {
+function Main(): JSX.Element {
   const filmsList = useAppSelector(getFilms);
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const authorAvatar = useAppSelector(getAuthorAvatar);
-
   const genres = [...new Set(filmsList.map((film) => film.genre))].sort();
   genres.unshift(Genres.All);
+  const isPromoFilmLoading = useAppSelector(getPromoFilmLoadStatus);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPromoFilm());
+  }, [dispatch]);
+
+  if (isPromoFilmLoading || !promoFilm) {
+    return <Spinner />;
+  }
 
   return (
     <main>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={SelectedFilmItem.backgroundImage} alt={SelectedFilmItem.name} />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
-        {authorizationStatus && <Header authorizationStatus={authorizationStatus} authorAvatar={authorAvatar} />}
-        {<SelectedFilm name={SelectedFilmItem.name} genre={SelectedFilmItem.genre} posterImage={SelectedFilmItem.posterImage} dateFilm={SelectedFilmItem.released} />}
+        <Header />
+        {<SelectedFilm isFavorite={promoFilm.isFavorite} name={promoFilm.name} genre={promoFilm.genre} posterImage={promoFilm.posterImage} dateFilm={promoFilm.released} id={promoFilm.id} />}
       </section>
 
       <div className="page-content">
         <FilmCatalog />
 
-        <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </main >
   );

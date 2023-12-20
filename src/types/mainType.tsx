@@ -1,4 +1,4 @@
-export type FilmCardType = {
+export type FilmPreview = {
     id: string;
     previewImage: string;
     name: string;
@@ -6,7 +6,12 @@ export type FilmCardType = {
     previewVideoLink: string;
 };
 
-export type SelectedFilmType = {
+export type ChangeFilmStatus = {
+    id: string;
+    status: number;
+}
+
+export type PromoFilm = {
     id: string;
     name: string;
     posterImage: string;
@@ -24,13 +29,13 @@ export type SelectedFilmType = {
     isFavorite?: boolean;
 }
 
-export type AddReviewFilmType = {
+export type AddReviewFilm = {
     id: string;
     rating: number;
     comment: string;
 };
 
-export type SeeReviewFilmType = {
+export type SeeReviewFilm = {
     id: string;
     date: string;
     user: string;
