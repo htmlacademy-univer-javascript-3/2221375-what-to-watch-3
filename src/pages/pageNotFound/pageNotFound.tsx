@@ -2,7 +2,7 @@ import './pageNotFound.css';
 
 function Page404(): JSX.Element {
   return (
-    <body>
+    <body className='pageNotFound'>
       <section className="notFound">
         <div className="img">
           <img src="https://assets.codepen.io/5647096/backToTheHomepage.png" alt="Back to the Homepage" />
