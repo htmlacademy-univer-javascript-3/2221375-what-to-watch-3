@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { FilmProcess } from '../../types/state';
-import { fetchFilmInfoAction, fetchFilmsAction, fetchSimilarFilms } from '../apiActions';
+import { fetchFilmInfoAction, fetchFilmsAction, fetchMyList, fetchPromoFilm, fetchSimilarFilms } from '../apiActions';
 
-const initialState:FilmProcess = {
+const initialState: FilmProcess = {
   films: [],
   filmInfo: null,
   similarFilms: [],
   isFilmsDataLoading: false,
   isFilmInfoLoading: false,
+  promoFilm: null,
+  myList: [],
   isSimilarFilmsLoading: false,
-  hasError: false
+  hasError: false,
+  isPromoFilmLoading: false,
+  isMyListLoading: false
 };
 
 export const filmProcess = createSlice({
@@ -38,7 +42,20 @@ export const filmProcess = createSlice({
         state.filmInfo = action.payload;
         state.isFilmInfoLoading = false;
       })
-
+      .addCase(fetchPromoFilm.pending, (state) => {
+        state.isPromoFilmLoading = true;
+      })
+      .addCase(fetchPromoFilm.fulfilled, (state, action) => {
+        state.promoFilm = action.payload;
+        state.isPromoFilmLoading = false;
+      })
+      .addCase(fetchMyList.pending, (state) => {
+        state.isMyListLoading = true;
+      })
+      .addCase(fetchMyList.fulfilled, (state, action) => {
+        state.myList = action.payload;
+        state.isMyListLoading = false;
+      })
       .addCase(fetchSimilarFilms.pending, (state) => {
         state.isSimilarFilmsLoading = true;
       })

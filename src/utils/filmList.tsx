@@ -1,12 +1,12 @@
-import { FilmCardType } from '../types/mainType';
+import { FilmPreview } from '../types/mainType';
 
-function getFlimsOfGenre(filmList:Array<FilmCardType>, genre:string): Array<FilmCardType>{
-  if (genre === 'All'){
+function getFlimsOfGenre(filmList: Array<FilmPreview>, genre: string): Array<FilmPreview> {
+  if (genre === 'All') {
     return filmList;
   }
-  const result: Array<FilmCardType> = [];
-  filmList.forEach((element)=>{
-    if (element.genre === genre){
+  const result: Array<FilmPreview> = [];
+  filmList.forEach((element) => {
+    if (element.genre === genre) {
       result.push(element);
     }
   });

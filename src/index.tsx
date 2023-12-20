@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { CardsFilm } from './mocks/films';
-import { SelectedFilmItem } from './const';
-import { videoSrc } from './mocks/video';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { checkAuthAction, fetchFilmsAction } from './store/apiActions';
@@ -21,7 +18,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
-      <App CardsFilm={CardsFilm} SelectedFilmItem={SelectedFilmItem} video={videoSrc} />
+      <App />
     </Provider>
 
   </React.StrictMode>
