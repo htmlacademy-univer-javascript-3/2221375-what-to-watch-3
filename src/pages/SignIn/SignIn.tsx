@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { FormEvent, useRef, useState } from 'react';
-import { loginAction } from '../../store/apiActions';
+import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/user';
 import Footer from '../../components/footer/footer';
 
@@ -24,7 +24,7 @@ function SignIn(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (loginRef.current !== null && passwordRef.current !== null) {
+    if (loginRef.current && passwordRef.current) {
       if (!isValidEmail(loginRef.current.value)) {
         setErrorMessage('Please enter a valid email address');
       } else if (
@@ -58,7 +58,7 @@ function SignIn(): JSX.Element {
         </header>
 
         <div className="sign-in user-page__content">
-          <form onSubmit={handleSubmit} action="#" className="sign-in__form">
+          <form onSubmit={handleSubmit} action="#" className="sign-in__form" noValidate>
             {errorMessage && (
               <div className="sign-in__message">
                 <p>{errorMessage}</p>

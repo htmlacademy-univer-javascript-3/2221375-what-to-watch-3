@@ -4,22 +4,21 @@ export enum AuthorizationStatus {
   Unknown = 'Unknown'
 }
 
-export enum AppRoute {
-  Main = '/',
-  SignIn = '/login',
-  MyList = '/mylist',
-  Film = '/films/:id',
-  AddReview = '/films/:id/review',
-  Player = '/player/:id',
-  PageNotFound404 = '/*'
-}
+export const AppRoute = {
+  Main: '/',
+  SignIn: '/login',
+  MyList: '/mylist',
+  Film: '/films/:id',
+  AddReview: '/films/:id/review',
+  Player: '/player/:id',
+  PageNotFound404: '/*'
+};
 
 export const TIMEOUT_SHOW_ERROR = 2000;
 
 export enum APIRoute {
   Films = '/films',
   Login = '/login',
-  Logout = '/logout',
   Comments = '/comments',
   Promo = '/promo',
   Favorite = '/favorite'

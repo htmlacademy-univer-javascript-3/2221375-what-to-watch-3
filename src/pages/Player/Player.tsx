@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getFilmInfo, getFilmInfoLoadStatus } from '../../store/filmProcess/selectors';
-import { fetchFilmInfoAction } from '../../store/apiActions';
+import { getFilmInfo, getFilmInfoLoadStatus } from '../../store/film-process/selectors';
+import { fetchFilmInfoAction } from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
 import PageNotFound from '../pageNotFound/pageNotFound';
 
@@ -92,7 +92,7 @@ export default function Player(): JSX.Element {
         </div>
 
         <div className="player__controls-row">
-          <button onClick={changePause} type="button" className="player__play">
+          <button onClick={changePause} type="button" className="player__play" data-testid="videoControl">
             {isPlaying ?
               <>
                 <svg viewBox="0 0 14 21" width="14" height="21">

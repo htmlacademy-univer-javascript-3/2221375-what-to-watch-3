@@ -1,13 +1,13 @@
-import FilmList from '../../components/filmList/filmList';
+import FilmList from '../../components/film-list/film-list';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getMyList, getMyListLoadStatus } from '../../store/filmProcess/selectors';
+import { getMyList, getMyListLoadStatus } from '../../store/film-process/selectors';
 import { useEffect } from 'react';
-import { fetchMyList } from '../../store/apiActions';
+import { fetchMyList } from '../../store/api-actions';
 import Spinner from '../../components/spinner/spinner';
 import Footer from '../../components/footer/footer';
 import { Link } from 'react-router-dom';
-import { getAuthorAvatar } from '../../store/userProcess/selectors';
+import { getAuthorAvatar } from '../../store/user-process/selectors';
 
 function MyList(): JSX.Element {
   const filmList = useAppSelector(getMyList);
