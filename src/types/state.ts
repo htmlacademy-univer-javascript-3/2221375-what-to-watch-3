@@ -23,7 +23,6 @@ export type FilmProcess = {
   isPromoFilmLoading: boolean;
   isMyListLoading: boolean;
   isSimilarFilmsLoading: boolean;
-  hasError: boolean;
 }
 
 export type GenreProcess = {

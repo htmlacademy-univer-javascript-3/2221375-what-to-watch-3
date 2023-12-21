@@ -1,17 +1,17 @@
-import FilmOverview from '../../components/filmOverview/filmOwervie';
-import FilmDetails from '../../components/filmDetails/filmDetails';
-import FilmReviews from '../../components/filmReviews/filmReviews';
+import FilmOverview from '../../components/film-overview/film-overview';
+import FilmDetails from '../../components/film-details/film-details';
+import FilmReviews from '../../components/film-reviews/film-reviews';
 import { Link, generatePath, useParams, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useState, useEffect } from 'react';
-import FilmList from '../../components/filmList/filmList';
-import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms, fetchChangeFilmStatus } from '../../store/apiActions';
+import FilmList from '../../components/film-list/film-list';
+import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms, fetchChangeFilmStatus } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
-import { getAuthorizationStatus } from '../../store/userProcess/selectors';
-import { getFilmInfo, getFilmInfoLoadStatus, getSimilarFilms, getMyList, getSimilarFilmsLoadStatus } from '../../store/filmProcess/selectors';
-import { getFilmReviews } from '../../store/reviewProcess/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getFilmInfo, getFilmInfoLoadStatus, getSimilarFilms, getMyList, getSimilarFilmsLoadStatus } from '../../store/film-process/selectors';
+import { getFilmReviews } from '../../store/review-process/selectors';
 import PageNotFound from '../pageNotFound/pageNotFound';
 import Footer from '../../components/footer/footer';
 
@@ -36,26 +36,11 @@ function MoviePage(): JSX.Element {
     }
   }, [dispatch, id]);
 
-
-  const getStarring = (): string => {
-    let result = '';
-    if (film) {
-      film.starring.map((element, index) => {
-        if (index + 1 !== film.starring.length) {
-          result += `${element}, `;
-        } else {
-          result += element;
-        }
-      });
-    }
-    return result;
-  };
-
   const getPage = () => {
     if (pageNow === 'Overview' && film) {
-      return <FilmOverview rating={film.rating} scoresCount={film.scoresCount} starringList={getStarring()} description={film.description} director={film.director} />;
+      return <FilmOverview film={film} />;
     } else if (pageNow === 'Details' && film) {
-      return <FilmDetails director={film.director} starring={film.starring} runTime={film.runTime} genre={film.genre} released={film.released} />;
+      return <FilmDetails film={film} />;
     }
     return <FilmReviews seeReviewsFilm={filmReviews} />;
   };

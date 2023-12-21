@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logoutAction } from '../../store/apiActions';
-import { getAuthorAvatar, getAuthorizationStatus } from '../../store/userProcess/selectors';
+import { logoutAction } from '../../store/api-actions';
+import { getAuthorAvatar, getAuthorizationStatus } from '../../store/user-process/selectors';
 
 export default function Header(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -30,7 +30,7 @@ export default function Header(): JSX.Element {
             </div>
           </li>
           <li className="user-block__item">
-            <a onClick={logOutClick} className="user-block__link">Sign out</a>
+            <a data-testid="logOut" onClick={logOutClick} className="user-block__link">Sign out</a>
           </li>
         </ul>
         :
