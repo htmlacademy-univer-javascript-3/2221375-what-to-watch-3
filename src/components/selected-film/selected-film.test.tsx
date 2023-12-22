@@ -23,6 +23,8 @@ describe('SelectedFilm', () => {
         genre={SelectedFilmItem.genre}
         dateFilm={SelectedFilmItem.released}
         posterImage={SelectedFilmItem.posterImage}
+        myListLength={1}
+
       />,
       mockHistory
     );
