@@ -5,7 +5,7 @@ import { Link, generatePath, useParams, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useState, useEffect } from 'react';
 import FilmList from '../../components/film-list/film-list';
-import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms, fetchChangeFilmStatus } from '../../store/api-actions';
+import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms, fetchChangeFilmStatus, fetchMyList } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
@@ -25,6 +25,8 @@ function MoviePage(): JSX.Element {
   const filmlist = useAppSelector(getMyList);
   const isSimilarFilmsLoading = useAppSelector(getSimilarFilmsLoadStatus);
   const navigate = useNavigate();
+  const [newFilmLength, setNewFilmLength] = useState(filmlist.length);
+  const [newIsFavorite, setNewIsFavorite] = useState(film?.isFavorite);
   const isFilmLoading = useAppSelector(getFilmInfoLoadStatus);
   const dispatch = useAppDispatch();
 
@@ -33,8 +35,11 @@ function MoviePage(): JSX.Element {
       dispatch(fetchSimilarFilms(id));
       dispatch(fetchFilmReviews(id));
       dispatch(fetchFilmInfoAction(id));
+      dispatch(fetchMyList());
+      setNewFilmLength(filmlist.length);
+      setNewIsFavorite(film?.isFavorite);
     }
-  }, [dispatch, id]);
+  }, [dispatch, film?.isFavorite, filmlist.length, id]);
 
   const getPage = () => {
     if (pageNow === 'Overview' && film) {
@@ -80,11 +85,12 @@ function MoviePage(): JSX.Element {
                     <span>Play</span>
                   </button>
                   <button className="btn btn--list film-card__button" type="button" onClick={() => {
-                    dispatch(fetchChangeFilmStatus({ id: film.id, status: Number(!film.isFavorite) }));
-                    navigate(AppRoute.MyList);
+                    dispatch(fetchChangeFilmStatus({ id: film.id, status: Number(!newIsFavorite) }));
+                    setNewIsFavorite(!newIsFavorite);
+                    setNewFilmLength(newIsFavorite ? newFilmLength - 1 : newFilmLength + 1);
                   }}
                   >
-                    {film.isFavorite ?
+                    {newIsFavorite ?
                       <svg width="18" height="14" viewBox="0 0 18 14">
                         <use xlinkHref="#in-list"></use>
                       </svg> :
@@ -92,7 +98,7 @@ function MoviePage(): JSX.Element {
                         <use xlinkHref="#add"></use>
                       </svg>}
                     <span>My list</span>
-                    <span className="film-card__count">{filmlist.length}</span>
+                    <span className="film-card__count">{newFilmLength}</span>
                   </button>
                   {authorizationStatus === AuthorizationStatus.Auth && id && <Link to={generatePath(AppRoute.AddReview, { id: id })} className="btn film-card__button">Add review</Link>}
                 </div>

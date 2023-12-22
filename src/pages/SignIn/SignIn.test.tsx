@@ -10,7 +10,7 @@ import { createMemoryHistory } from 'history';
 import { APIRoute, AppRoute } from '../../const';
 import { loginAction } from '../../store/api-actions';
 import { redirectToRoute } from '../../store/action';
-import SignIn from './login';
+import SignIn from './SignIn';
 
 describe('LoginPage', () => {
   const mockHistory = createMemoryHistory();
