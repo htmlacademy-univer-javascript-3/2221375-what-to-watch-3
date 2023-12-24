@@ -7,13 +7,13 @@ import { useState, useEffect } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import { fetchFilmInfoAction, fetchFilmReviews, fetchSimilarFilms, fetchChangeFilmStatus, fetchMyList } from '../../store/api-actions';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import Spinner from '../../components/spinner/spinner';
-import Header from '../../components/header/header';
+import Loader from '../../components/loader/loader';
+import Header from '../../components/main-element-nav/header/header';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getFilmInfo, getFilmInfoLoadStatus, getSimilarFilms, getMyList, getSimilarFilmsLoadStatus } from '../../store/film-process/selectors';
 import { getFilmReviews } from '../../store/review-process/selectors';
 import PageNotFound from '../pageNotFound/pageNotFound';
-import Footer from '../../components/footer/footer';
+import Footer from '../../components/main-element-nav/footer/footer';
 
 function MoviePage(): JSX.Element {
   const [pageNow, setPageNow] = useState('Overview');
@@ -51,7 +51,7 @@ function MoviePage(): JSX.Element {
   };
 
   if (isFilmLoading || isSimilarFilmsLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
   if (!id || !film) {
     return <PageNotFound />;

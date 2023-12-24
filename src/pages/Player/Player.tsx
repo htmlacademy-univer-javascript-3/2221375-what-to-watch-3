@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFilmInfo, getFilmInfoLoadStatus } from '../../store/film-process/selectors';
 import { fetchFilmInfoAction } from '../../store/api-actions';
-import Spinner from '../../components/spinner/spinner';
+import Loader from '../../components/loader/loader';
 import PageNotFound from '../pageNotFound/pageNotFound';
 
 export default function Player(): JSX.Element {
@@ -35,10 +35,11 @@ export default function Player(): JSX.Element {
   };
 
   function getTimeLeft(seconds: number): string {
+    const date = new Date(seconds * 1000);
     if (seconds / 3600 < 1) {
-      return new Date(seconds * 1000).toISOString().slice(14, 19);
+      return date.toISOString().slice(14, 19);
     }
-    return new Date(seconds * 1000).toISOString().slice(11, 19);
+    return date.toISOString().slice(11, 19);
   }
 
   const handleTimeUpdate = (): void => {
@@ -69,7 +70,7 @@ export default function Player(): JSX.Element {
   };
 
   if (isFilmLoading) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   if (!film || !id) {

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import PlayButton from './button-to-play';
+import PlayButton from './main-button-play';
 import { withHistory } from '../../services/mocks';
 
 describe('Play Button', () => {

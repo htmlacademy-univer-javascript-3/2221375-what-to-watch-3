@@ -3,11 +3,11 @@ import AddReviewForm from '../../components/add-review-form/add-review-form';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { redirectToRoute } from '../../store/action';
-import Spinner from '../../components/spinner/spinner';
+import Loader from '../../components/loader/loader';
 import { Link, generatePath, useParams } from 'react-router-dom';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getFilmInfo, getFilmInfoLoadStatus } from '../../store/film-process/selectors';
-import Logo from '../../components/logo/logo';
+import Logo from '../../components/main-element-nav/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 
 export default function AddReview(): JSX.Element {
@@ -64,7 +64,7 @@ export default function AddReview(): JSX.Element {
           {id && <AddReviewForm id={id} />}
         </section>
         :
-        <Spinner />}
+        <Loader />}
     </>
   );
 }

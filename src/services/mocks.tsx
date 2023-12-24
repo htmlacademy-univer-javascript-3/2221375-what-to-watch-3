@@ -88,7 +88,5 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
 });
 
 export const makeFakeStoreFilms = () => makeFakeStore().FILM;
-
 export const makeFakeStoreReview = () => makeFakeStore().REVIEW;
-
 export const makeFakeStoreUser = () => makeFakeStore().USER;

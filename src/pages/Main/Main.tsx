@@ -1,13 +1,13 @@
 import SelectedFilm from '../../components/selected-film/selected-film';
-import Header from '../../components/header/header';
+import Header from '../../components/main-element-nav/header/header';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { Genres } from '../../const';
-import { getFilms, getPromoFilm, getPromoFilmLoadStatus, getMyList, getMyListLoadStatus } from '../../store/film-process/selectors';
+import { getFilms, getPromoFilm, getPromoFilmLoadStatus, getMyList } from '../../store/film-process/selectors';
 import FilmCatalog from '../../components/film-catalog/film-catalog';
-import Spinner from '../../components/spinner/spinner';
+import Loader from '../../components/loader/loader';
 import { useEffect } from 'react';
 import { fetchPromoFilm, fetchMyList } from '../../store/api-actions';
-import Footer from '../../components/footer/footer';
+import Footer from '../../components/main-element-nav/footer/footer';
 
 
 function Main(): JSX.Element {
@@ -17,7 +17,6 @@ function Main(): JSX.Element {
   const isPromoFilmLoading = useAppSelector(getPromoFilmLoadStatus);
   const promoFilm = useAppSelector(getPromoFilm);
   const myList = useAppSelector(getMyList);
-  const myListLoadingStatus = useAppSelector(getMyListLoadStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -25,26 +24,39 @@ function Main(): JSX.Element {
     dispatch(fetchMyList());
   }, [dispatch]);
 
-  if (isPromoFilmLoading || !promoFilm || myListLoadingStatus) {
-    return <Spinner />;
+  if (isPromoFilmLoading || !promoFilm) {
+    return <Loader />;
   }
 
   return (
     <main>
       <section className="film-card">
         <div className="film-card__bg">
-          <img data-testid={`${promoFilm.backgroundImage}`} src={promoFilm.backgroundImage} alt={promoFilm.name} />
+          <img
+            data-testid={`${promoFilm.backgroundImage}`}
+            src={promoFilm.backgroundImage}
+            alt={promoFilm.name}
+          />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <Header />
-        {<SelectedFilm myListLength={myList.length} isFavorite={promoFilm.isFavorite} name={promoFilm.name} genre={promoFilm.genre} posterImage={promoFilm.posterImage} dateFilm={promoFilm.released} id={promoFilm.id} />}
+        {
+          <SelectedFilm
+            myListLength={myList.length}
+            isFavorite={promoFilm.isFavorite}
+            name={promoFilm.name}
+            genre={promoFilm.genre}
+            posterImage={promoFilm.posterImage}
+            dateFilm={promoFilm.released}
+            id={promoFilm.id}
+          />
+        }
       </section>
 
       <div className="page-content">
         <FilmCatalog />
-
         <Footer />
       </div>
     </main >

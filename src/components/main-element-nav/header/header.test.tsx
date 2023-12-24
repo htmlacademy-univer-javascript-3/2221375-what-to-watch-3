@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { APIRoute, AuthorizationStatus, NameSpace } from '../../const';
-import { extractActionTypes, makeFakeStore, withHistory, withStore } from '../../services/mocks';
+import { APIRoute, AuthorizationStatus, NameSpace } from '../../../const';
+import { extractActionTypes, makeFakeStore, withHistory, withStore } from '../../../services/mocks';
 import Header from './header';
-import { logoutAction } from '../../store/api-actions';
+import { logoutAction } from '../../../store/api-actions';
 import { createMemoryHistory } from 'history';
 
 describe('UserBlock', () => {

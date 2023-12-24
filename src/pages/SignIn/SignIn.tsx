@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../hooks';
 import { FormEvent, useRef, useState } from 'react';
 import { loginAction } from '../../store/api-actions';
 import { AuthData } from '../../types/user';
-import Footer from '../../components/footer/footer';
+import Footer from '../../components/main-element-nav/footer/footer';
 
 function SignIn(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,9 +17,7 @@ function SignIn(): JSX.Element {
   };
 
   const containsAnyLetters = (password: string) => /[a-zA-Z]/.test(password);
-
   const containsAnyNumbers = (password: string) => /[0-9]/.test(password);
-
   const isValidEmail = (email: string) => /^\S+@\S+\.\S+$/.test(email);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {

@@ -1,4 +1,4 @@
-import Page404 from '../../pages/pageNotFound/pageNotFound.tsx';
+import PageNotFound from '../../pages/pageNotFound/pageNotFound.tsx';
 import Main from '../../pages/Main/Main';
 import MoviePage from '../../pages/MoviePage/MoviePage';
 import MyList from '../../pages/MyList/MyList';
@@ -44,7 +44,7 @@ function App(): JSX.Element {
       />
       <Route
         path='*'
-        element={<Page404 />}
+        element={<PageNotFound />}
       />
     </Routes>
   );

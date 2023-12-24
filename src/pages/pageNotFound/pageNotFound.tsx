@@ -1,4 +1,5 @@
 import './pageNotFound.css';
+import { Link } from 'react-router-dom';
 
 function PageNotFound(): JSX.Element {
   return (
@@ -10,10 +11,8 @@ function PageNotFound(): JSX.Element {
         </div>
         <div className="text">
           <h1>404</h1>
-          <h2>PAGE NOT FOUND</h2>
-          <h3>BACK TO HOME?</h3>
-          <a href="#" className="yes">YES</a>
-          <a href="https://www.youtube.com/watch?v=G3AfIvJBcGo">NO</a>
+          <h2>Page not found</h2>
+          <Link to="/">Go to main page</Link>
         </div>
       </section>
     </body>

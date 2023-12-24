@@ -9,7 +9,7 @@ export interface HistoryRouterProps {
 }
 
 
-function HistoryRouter({basename, history, children}: HistoryRouterProps): JSX.Element{
+function HistoryRouter({ basename, history, children }: HistoryRouterProps): JSX.Element {
   const [state, setState] = useState({
     action: history.action,
     location: history.location
@@ -18,12 +18,7 @@ function HistoryRouter({basename, history, children}: HistoryRouterProps): JSX.E
   useLayoutEffect(() => history.listen(setState), [history]);
 
   return (
-    <Router
-      basename={basename}
-      location={state.location}
-      navigationType={state.action}
-      navigator={history}
-    >
+    <Router basename={basename} location={state.location} navigationType={state.action} navigator={history}>
       {children}
     </Router>
   );

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { extractActionTypes, makeFakeStore, withHistory, withStore } from '../../services/mocks';
-import ChangeFavoriteButton from './change-favorite-button';
+import ChangeFavoriteButton from './favorite-button';
 import { APIRoute, AuthorizationStatus, NameSpace } from '../../const';
 import userEvent from '@testing-library/user-event';
 import { fetchChangeFilmStatus } from '../../store/api-actions';
