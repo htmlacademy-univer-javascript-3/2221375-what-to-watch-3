@@ -4,7 +4,7 @@ type ButtonToPlayProps = {
   id: string;
 };
 
-export default function PlayButton({ id }: ButtonToPlayProps) {
+function PlayButton({ id }: ButtonToPlayProps) {
   const navigate = useNavigate();
 
   return (
@@ -20,3 +20,5 @@ export default function PlayButton({ id }: ButtonToPlayProps) {
     </button>
   );
 }
+
+export default PlayButton;

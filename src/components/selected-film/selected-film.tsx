@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import ChangeFavoriteButton from '../change-favorite-button/change-favorite-button';
+import ChangeFavoriteButton from '../favorite-button/favorite-button';
 
 type SelectedFilmProps = {
   name: string;

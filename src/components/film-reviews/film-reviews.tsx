@@ -6,14 +6,15 @@ type FilmReviewsProps = {
 
 export default function FilmReviews({ seeReviewsFilm }: FilmReviewsProps): JSX.Element {
 
-  const getValidArray = (array: Array<SeeReviewFilm>) => array.reduce((acc: Array<Array<SeeReviewFilm>>, curr, index: number): Array<Array<SeeReviewFilm>> => {
-    if (index % 3 === 0) {
-      acc.push([curr]);
-    } else {
-      acc[acc.length - 1].push(curr);
-    }
-    return acc;
-  }, []);
+  const getValidArray = (array: Array<SeeReviewFilm>) =>
+    array.reduce((acc: Array<Array<SeeReviewFilm>>, curr, index: number): Array<Array<SeeReviewFilm>> => {
+      if (index % 3 === 0) {
+        acc.push([curr]);
+      } else {
+        acc[acc.length - 1].push(curr);
+      }
+      return acc;
+    }, []);
 
   const getValidDate = (date: string) => {
     const validDate = new Date(date);

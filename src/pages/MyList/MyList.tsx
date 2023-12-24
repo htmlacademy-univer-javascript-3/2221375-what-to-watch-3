@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getMyList, getMyListLoadStatus } from '../../store/film-process/selectors';
 import { useEffect } from 'react';
 import { fetchMyList, logoutAction } from '../../store/api-actions';
-import Spinner from '../../components/spinner/spinner';
-import Footer from '../../components/footer/footer';
+import Loader from '../../components/loader/loader';
+import Footer from '../../components/main-element-nav/footer/footer';
 import { Link } from 'react-router-dom';
 import { getAuthorAvatar } from '../../store/user-process/selectors';
 
@@ -19,7 +19,7 @@ function MyList(): JSX.Element {
   }, [dispatch]);
 
   if (listLoadingStatus) {
-    return <Spinner />;
+    return <Loader />;
   }
 
   return (

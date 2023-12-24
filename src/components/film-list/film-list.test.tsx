@@ -8,10 +8,7 @@ describe('FilmList', () => {
   it('renders correctly', () => {
     render(
       withHistory(
-        <FilmList
-          filmsSection={CardsFilm.length}
-          filmsList={CardsFilm}
-        />
+        <FilmList filmsSection={CardsFilm.length} filmsList={CardsFilm} />
       )
     );
 

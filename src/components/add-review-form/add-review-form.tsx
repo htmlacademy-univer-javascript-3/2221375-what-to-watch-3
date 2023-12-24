@@ -8,7 +8,7 @@ type AddReviewFormProps = {
 
 const RATING_COUNT = 10;
 
-export default function AddReviewForm({ id }: AddReviewFormProps): JSX.Element {
+function AddReviewForm({ id }: AddReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const ratings = [...Array(RATING_COUNT).keys()].map((_, i) => i + 1).reverse();
   const [reviewContent, setReviewContent] = useState({
@@ -43,8 +43,7 @@ export default function AddReviewForm({ id }: AddReviewFormProps): JSX.Element {
         <div className="rating">
           <div className="rating__stars">
             {ratings.map((rating) => [
-              <input
-                key={`input-${rating}`}
+              <input key={`input-${rating}`}
                 onChange={changeRating}
                 className="rating__input"
                 id={`star-${rating}`}
@@ -53,11 +52,7 @@ export default function AddReviewForm({ id }: AddReviewFormProps): JSX.Element {
                 value={rating}
                 data-testid="rating"
               />,
-              <label
-                key={`label-${rating}`}
-                className="rating__label"
-                htmlFor={`star-${rating}`}
-              >
+              <label key={`label-${rating}`} className="rating__label" htmlFor={`star-${rating}`}>
                 Rating {rating}
               </label>
             ])}
@@ -74,3 +69,4 @@ export default function AddReviewForm({ id }: AddReviewFormProps): JSX.Element {
     </div>
   );
 }
+export default AddReviewForm;
